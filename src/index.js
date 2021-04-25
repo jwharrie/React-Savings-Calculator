@@ -112,7 +112,7 @@ function Goal(props) {
   if (months === 0) {
     return null;
   }
-  
+
   return (
     <div>
       <p>Time required to reach goal amount: <b>{months} months</b> <b>({(months / 12).toFixed(2)} years)</b></p>
@@ -120,9 +120,13 @@ function Goal(props) {
   );
 }
 
+// React component representing a savings account. Accepts user input and renders calculations.
+// States live in Account component and are updated based on changes in input values.
 class Account extends React.Component {
   constructor(props) {
     super(props);
+
+    // Each state is initialized as null to leave input fields blank.
     this.state = {
       initAmt: null,
       apr: null,
@@ -131,15 +135,24 @@ class Account extends React.Component {
       goalAmt: null,
     };
 
+    // Binds handleInputChange to this
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
+  // Updates state each time input changes. Applicable to all states. Passed into each input element as onChange property.
   handleInputChange(e) {
     const name = e.target.name;
     const value = e.target.value;
     this.setState({[name]: value});
   }
 
+  /*
+  Account component renders input fields, Amounts component and Goal component.
+  Each input field has its corresponding state passed into it as part of props.
+  handleInputChange() is also passed into each input field to respond to input changes.
+  Minimum values are set to 0 for each input field.
+  For Amounts and Goals components, arguments required for calculations are passed from Account state as props.
+  */
   render() {
     return (
       <div class="account">
@@ -207,6 +220,7 @@ class Account extends React.Component {
   }
 }
 
+// React component that renders Title, credits and Account component.
 class App extends React.Component {
   render() {
     return (
@@ -219,6 +233,7 @@ class App extends React.Component {
   }
 }
 
+// Rendering of App component occurs here.
 ReactDOM.render(
     <App />,
   document.getElementById('root')
