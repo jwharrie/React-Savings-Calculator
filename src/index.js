@@ -121,30 +121,7 @@ function Goal(props) {
 }
 
 // React component representing a savings account. Accepts user input and renders calculations.
-// States live in Account component and are updated based on changes in input values.
 class Account extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // Each state is initialized as null to leave input fields blank.
-    this.state = {
-      initAmt: null,
-      apr: null,
-      mContri: null,
-      months: null,
-      goalAmt: null,
-    };
-
-    // Binds handleInputChange to this
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  // Updates state each time input changes. Applicable to all states. Passed into each input element as onChange property.
-  handleInputChange(e) {
-    const name = e.target.name;
-    const value = e.target.value;
-    this.setState({[name]: value});
-  }
 
   /*
   Account component renders input fields, Amounts component and Goal component.
@@ -155,14 +132,14 @@ class Account extends React.Component {
   */
   render() {
     return (
-      <div class="account">
+      <div class="account" id={this.props.accID}>
         <label>
           Initial Amount ($):
           <input
             type="number"
             name="initAmt"
-            value={this.state.initAmt}
-            onChange={this.handleInputChange}
+            value={this.props.initAmt}
+            onChange={this.props.handleInputChange}
             min="0" />
         </label>
         <br />
@@ -171,8 +148,8 @@ class Account extends React.Component {
           <input
             type="number"
             name="apr"
-            value={this.state.apr}
-            onChange={this.handleInputChange}
+            value={this.props.apr}
+            onChange={this.props.handleInputChange}
             min="0" />
         </label>
         <br />
@@ -181,8 +158,8 @@ class Account extends React.Component {
           <input
             type="number"
             name="months"
-            value={this.state.months}
-            onChange={this.handleInputChange}
+            value={this.props.months}
+            onChange={this.props.handleInputChange}
             min="0" />
         </label>
         <br />
@@ -191,8 +168,8 @@ class Account extends React.Component {
           <input
             type="number"
             name="mContri"
-            value={this.state.mContri}
-            onChange={this.handleInputChange}
+            value={this.props.mContri}
+            onChange={this.props.handleInputChange}
             min="0" />
         </label>
         <br />
@@ -201,36 +178,119 @@ class Account extends React.Component {
           <input
             type="number"
             name="goalAmt"
-            value={this.state.goalAmt}
-            onChange={this.handleInputChange}
+            value={this.props.goalAmt}
+            onChange={this.props.handleInputChange}
             min="0" />
         </label>
         <Amounts 
-          initAmt={this.state.initAmt}
-          apr={this.state.apr}
-          months={this.state.months}
-          mContri={this.state.mContri} />
+          initAmt={this.props.initAmt}
+          apr={this.props.apr}
+          months={this.props.months}
+          mContri={this.props.mContri} />
         <Goal 
-          initAmt={this.state.initAmt}
-          apr={this.state.apr}
-          mContri={this.state.mContri}
-          goalAmt={this.state.goalAmt} />
+          initAmt={this.props.initAmt}
+          apr={this.props.apr}
+          mContri={this.props.mContri}
+          goalAmt={this.props.goalAmt} />
       </div>
     );
   }
 }
 
-// React component that renders Title, credits and Account component.
+// React component that renders app title, credits and all Account components belonging to user.
+// States live in App component
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // State contains array of all user accounts. Each entry is used to render its own Account component.
+    this.state = {
+      accounts: [createAccount()],
+    };
+
+    // Binds addAccount() and handleInputChange() to `this` keyword
+    this.addAccount = this.addAccount.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  // Adds new account when user clicks "Add Account" button.
+  addAccount() {
+    // Makes array copy of current accounts in App's state
+    const accounts = this.state.accounts;
+
+    // Create updated accounts array by concatenating new account to accounts copy.
+    const updatedAccounts = accounts.concat([createAccount()]);
+
+    // Set App account state to updatedAccounts.
+    this.setState({accounts: updatedAccounts});
+  }
+
+  /*
+  Updates state each time input changes.
+  Applicable to all values of an account entry.
+  Passed into each input element as onChange property.
+  */
+  handleInputChange(e) {
+    // Grab input's name, value and id of its parent div element
+    const name = e.target.name;
+    const value = e.target.value;
+    const id = e.target.closest('div').id;
+
+    // Get copy of state's accounts array
+    let accounts = this.state.accounts;
+
+    // Modify object's value in array using id as index and name as property
+    accounts[id][name] = value;
+
+    // Set state's account array to modified copy array.
+    this.setState({accounts: accounts});
+  }
+
   render() {
+    /*
+    JSX object containing one or more accounts is created by applying mapping onto accounts in App state.
+    For each account acc in accounts state:
+      * Account component is created
+      * component's key is index of acc (i)
+      * values of acc are passed into Account component as props
+      * handleInputChange is passed as prop
+    */
+    let accounts = this.state.accounts.map((acc, i) => {
+      return (
+          <Account 
+            key={i}
+            accID={i}
+            initAmt={acc.initAmt}
+            apr={acc.apr}
+            mContri={acc.mContri}
+            months={acc.months}
+            goalAmt={acc.goalAmt}
+            handleInputChange={this.handleInputChange} />
+      );
+    });
+
+    // Renders title, credits, JSX object accounts and button that adds a new Account component.
     return (
       <div>
         <h1 id="title">Savings Calculator</h1>
         <h3 id="credit">Created by Jacob Wharrie</h3>
-        <Account />
+        {accounts}
+        <button id="addAccBtn" onClick={this.addAccount}>Add Account</button>
       </div>
     );
   }
+}
+
+// Creates a new account when "Add Account" button is pressed.
+function createAccount() {
+  // Each state is initialized as null to leave input fields blank.
+  return {
+    initAmt: null,
+    apr: null,
+    mContri: null,
+    months: null,
+    goalAmt: null,
+  };
 }
 
 // Rendering of App component occurs here.
