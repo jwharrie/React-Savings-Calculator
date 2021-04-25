@@ -11,13 +11,29 @@ body {
   padding: 15px;
 }
 
+#addAccBtn:hover {
+  background-color: green;
+  font-weight: bold;
+}
+
+.delBtn {
+  display: block;
+  margin: auto;
+  margin-bottom: 5px;
+}
+
+.delBtn:hover {
+  background-color: red;
+  font-weight: bold;
+}
+
 .accContainer {
   border-style: solid;
   border-color: black;
   border-width: 3px;
   border-radius: 8px;
   display: inline-block;
-  background-color: rgb(179, 156, 31);
+  background-color: rgb(240, 216, 84);
 }
 
 .account {
@@ -30,15 +46,32 @@ body {
   margin: 10px;
 }
 
+.grandContainer {
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 8px;
+  display: inline-block;
+  background-color: rgb(240, 216, 84);
+  margin: 10px;
+}
+
+.grandContainer p {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.5em;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
 #title {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 45px;
+  font-size: 3em;
   text-align: center;
 }
 
 #credit {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 25px;
+  font-size: 1.75em;
   text-align: center;
 }
 

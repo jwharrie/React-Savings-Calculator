@@ -6,6 +6,8 @@ More than one savings account can be created by the user, where each account cal
 
 To add a new account, simply click the **Add Account** button.
 
+To delete an account, click on the account's **Delete Account** button. The button will not work if there is only one account on screen.
+
 Earnings are calculated based on an account's **initial amount**, its **annual percentage rate (APR)**, **monthly contributions** to the account and the **number of months** that passes.
 
 Compounding interest is applied *monthly*. Monthly contributions are added after applying the interest rate.

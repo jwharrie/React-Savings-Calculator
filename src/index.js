@@ -192,6 +192,9 @@ class Account extends React.Component {
           apr={this.props.apr}
           mContri={this.props.mContri}
           goalAmt={this.props.goalAmt} />
+        <button class="delBtn" onClick={this.props.deleteAccount}>
+          Delete Account
+        </button>
       </div>
     );
   }
@@ -210,6 +213,7 @@ class App extends React.Component {
 
     // Binds addAccount() and handleInputChange() to `this` keyword
     this.addAccount = this.addAccount.bind(this);
+    this.deleteAccount = this.deleteAccount.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
@@ -223,6 +227,26 @@ class App extends React.Component {
 
     // Set App account state to updatedAccounts.
     this.setState({accounts: updatedAccounts});
+  }
+
+  // Delete an account when user clicks an account's "Delete Account" button.
+  deleteAccount(e) {
+    // First check if there is more than one active account.
+    // If there is only one, then an alert is triggered and no deletion occurs.
+    if (this.state.accounts.length < 2) {
+      alert('You must have one active account available at any time. Deletion cancelled.');
+      return;
+    }
+
+    // Grab id number of account.
+    const id = e.target.closest('div').id;
+
+    // Get copy of state's accounts array, then delete account with splice method.
+    let accounts = this.state.accounts;
+    accounts.splice(id, 1);
+
+    // Set state's account array to modified copy array.
+    this.setState({accounts: accounts});
   }
 
   /*
@@ -265,14 +289,15 @@ class App extends React.Component {
             mContri={acc.mContri}
             months={acc.months}
             goalAmt={acc.goalAmt}
-            handleInputChange={this.handleInputChange} />
+            handleInputChange={this.handleInputChange}
+            deleteAccount={this.deleteAccount} />
       );
     });
 
     // Renders title, credits, JSX object accounts and button that adds a new Account component.
     return (
       <div>
-        <h1 id="title">Savings Calculator</h1>
+        <h1 id="title">$ Savings Calculator $</h1>
         <h3 id="credit">Created by Jacob Wharrie</h3>
         <div class="accContainer">
           {accounts}
@@ -314,9 +339,9 @@ function GrandTotal(props) {
 
   // grandTotNewAmt is converted from cents to dollars
   grandTotNewAmt /= 100;
-  
+
   return (
-    <div>
+    <div class="grandContainer" >
       <p>Grand total from all accounts: <b>${grandTotNewAmt.toFixed(2)}</b> </p>
       <p>Interest earned: <b>${earned.toFixed(2)}</b> </p>
     </div>
