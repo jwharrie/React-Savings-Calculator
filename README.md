@@ -2,11 +2,15 @@
 
 This is a **React.js** web application that allows you to calculate earnings from compound interest in savings accounts.
 
-Earnings are calculated based on the account's **initial amount**, its **annual percentage rate (APR)**, **monthly contributions** to the account and the **number of months** that passes.
+More than one savings account can be created by the user, where each account calculates and displays its own results.
+
+To add a new account, simply click the **Add Account** button.
+
+Earnings are calculated based on an account's **initial amount**, its **annual percentage rate (APR)**, **monthly contributions** to the account and the **number of months** that passes.
 
 Compounding interest is applied *monthly*. Monthly contributions are added after applying the interest rate.
 
-For calculations to occur, you must input **number of months**.
+For calculations to occur, you must input the **number of months**.
 
 Inputting values results in the app displaying your **new amount** after your period of time and the **amount your account earned from interest only** (excluding monthly contributions).
 
