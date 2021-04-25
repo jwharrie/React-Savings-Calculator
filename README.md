@@ -12,7 +12,9 @@ Compounding interest is applied *monthly*. Monthly contributions are added after
 
 For calculations to occur, you must input the **number of months**.
 
-Inputting values results in the app displaying your **new amount** after your period of time and the **amount your account earned from interest only** (excluding monthly contributions).
+After inputting values into an account, the account displays your **new amount** after your period of time and the **amount your account earned from interest only** (excluding monthly contributions).
+
+If using multiple accounts, a **grand total** for new amounts and interest earned will display. 
 
 As this app uses the React framework, the UI will dynamically change after each change in input.
 

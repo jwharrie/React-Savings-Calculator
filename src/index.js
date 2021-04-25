@@ -284,17 +284,37 @@ class App extends React.Component {
   }
 }
 
+// React component that is similar to Amounts component except it sums new amounts and earnings from all accounts.
 function GrandTotal(props) {
+  /*
+  Total earnings from all accounts are stored in grandTotNewAmt.
+  To calculate earnings from interest, we require tracking the total initial amounts and total monthly contributions from all accounts.
+  We keep the totals in totInitAmt and grandTotMonthlyContri. Both are used to determine the value for 'earned.'
+  */
   let grandTotNewAmt = 0;
   let totInitAmt = 0;
   let grandTotMonthlyContri = 0;
+
+  /*
+  We'll iterate through each account in accounts state array passed down as props.
+  For each account:
+    * we calculate new amount with calculateNewAmount() and add result to grandTotNewAmt
+    * we add each account's initial amount to totInitAmt
+    * we calculate each account's total monthly contributions and add it to grandTotMontlyContri
+    * account values are converted from dollars to cents to avoid loss of precision in calculations
+  */
   props.accounts.forEach( acc => {
     grandTotNewAmt += Math.round(calculateNewAmount(acc.initAmt, acc.apr, acc.months, acc.mContri) * 100);
     totInitAmt += Math.round(acc.initAmt * 100);
     grandTotMonthlyContri += Math.round(acc.mContri * acc.months * 100);
   });
-  let earned = (grandTotNewAmt - totInitAmt - grandTotMonthlyContri) / 100;
+
+  // Grand total interest earned is calculated and stored in 'earned.' It's also converted from cents to dollars.
+  const earned = (grandTotNewAmt - totInitAmt - grandTotMonthlyContri) / 100;
+
+  // grandTotNewAmt is converted from cents to dollars
   grandTotNewAmt /= 100;
+  
   return (
     <div>
       <p>Grand total from all accounts: <b>${grandTotNewAmt.toFixed(2)}</b> </p>
