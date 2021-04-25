@@ -274,7 +274,9 @@ class App extends React.Component {
       <div>
         <h1 id="title">Savings Calculator</h1>
         <h3 id="credit">Created by Jacob Wharrie</h3>
-        {accounts}
+        <div class="accContainer">
+          {accounts}
+        </div>
         <button id="addAccBtn" onClick={this.addAccount}>Add Account</button>
       </div>
     );

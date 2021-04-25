@@ -11,6 +11,15 @@ body {
   padding: 15px;
 }
 
+.accContainer {
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 8px;
+  display: inline-block;
+  background-color: rgb(179, 156, 31);
+}
+
 .account {
   border-style: solid;
   border-color: black;
