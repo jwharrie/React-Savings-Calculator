@@ -278,9 +278,29 @@ class App extends React.Component {
           {accounts}
         </div>
         <button id="addAccBtn" onClick={this.addAccount}>Add Account</button>
+        <GrandTotal accounts={this.state.accounts}/>
       </div>
     );
   }
+}
+
+function GrandTotal(props) {
+  let grandTotNewAmt = 0;
+  let totInitAmt = 0;
+  let grandTotMonthlyContri = 0;
+  props.accounts.forEach( acc => {
+    grandTotNewAmt += Math.round(calculateNewAmount(acc.initAmt, acc.apr, acc.months, acc.mContri) * 100);
+    totInitAmt += Math.round(acc.initAmt * 100);
+    grandTotMonthlyContri += Math.round(acc.mContri * acc.months * 100);
+  });
+  let earned = (grandTotNewAmt - totInitAmt - grandTotMonthlyContri) / 100;
+  grandTotNewAmt /= 100;
+  return (
+    <div>
+      <p>Grand total from all accounts: <b>${grandTotNewAmt.toFixed(2)}</b> </p>
+      <p>Interest earned: <b>${earned.toFixed(2)}</b> </p>
+    </div>
+  );
 }
 
 // Creates a new account when "Add Account" button is pressed.
