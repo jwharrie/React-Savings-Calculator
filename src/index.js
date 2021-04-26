@@ -241,12 +241,12 @@ class App extends React.Component {
     // Grab id number of account.
     const id = e.target.closest('div').id;
 
-    // Get copy of state's accounts array, then delete account with splice method.
+    // Make new array, concatenate accounts state array to it and then delete account with splice method.
     let accounts = [];
     accounts = accounts.concat(this.state.accounts);
     accounts.splice(id, 1);
 
-    // Set state's account array to modified copy array.
+    // Set state's account array to copy array.
     this.setState({accounts: accounts});
   }
 
